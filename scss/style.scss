@@ -294,12 +294,20 @@ b, strong {
         justify-content: space-around;
     }
 
+    &__intro {
+        width: 100%;
+        margin-bottom: 40px;
+        font-size: 20px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #000;
+    }
+
     h1 {
         font-size: 50px;
         display: block;
         width: 100%;
         font-weight: bold;
-        margin-bottom: 30px;
+        margin-bottom: 40px;
         text-align: center;
     }
     h3 {
