@@ -2,20 +2,20 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-        <title>Career Path Template</title>
+        <title>Career Path Generator</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="robots" content="noindex, nofollow">
-        <link rel="shortcut icon" href="//tbcdn.talentbrew.com/company/3401/img/favicon/favicon-2221.ico" type="image/x-icon">
+        <link href="https://radancy.dev/favicon.png" rel="icon">
         <link rel="stylesheet" href ="css/style.css">
     </head>
-    
+
 	<body>
-        <div id="app" class="form-app"> 
-    
+        <div id="app" class="form-app">
+
             <h1>Career Path Generator</h1>
 
             <div class="form-app__intro">
-                <p>Examples of career paths you can build can be found <a href="https://tmpworldwide.dev/tb-ajd-template/examples/career-path/">here</a></p>
+                <p>Examples of career paths you can build can be found <a href="https://radancy.dev/tb-ajd-template/examples/career-path/">here</a></p>
             </div>
 
 
@@ -40,33 +40,33 @@
                         <option value="Verdana">Verdana</option>
                     </select>
                 </div>
-    
+
                 <div class="input-group">
                     <label>Background Color:</label>
                     <input type="text" name="back-color" class="jscolor" v-model="careerModel.backgroundColor" v-on:change="updateBackgroundColor($event)" />
                 </div>
-    
+
                 <div class="input-group">
                     <label>Text Color:</label>
                     <input type="text" name="text-color" class="jscolor" v-model="careerModel.textColor" v-on:change="updateTextColor($event)" />
                 </div>
-    
+
                 <div class="input-group">
                     <label>Text Background Color:</label>
                     <input type="text" name="text-color" class="jscolor" v-model="careerModel.textBackground" v-on:change="updateTextBackground($event)" />
                 </div>
-    
+
                 <div class="input-group">
                     <label>Arrow Color:</label>
                     <input type="text" name="text-color" class="jscolor" v-model="careerModel.arrowColor" v-on:change="updateArrowColor($event)" />
                 </div>
-    
+
                 <div class="input-group">
                     <div v-bind:style="careerModel.matchBorder == true ? 'display: none' : ''">
                         <label>Arrow Background Color:</label>
                         <input type="text" name="text-color" class="jscolor" v-model="careerModel.arrowBackground" v-on:change="updateArrowBackground($event)" />
                     </div>
-    
+
                     <br>
                     <div style="position: relative">
                         <input id="arrowBackground" type="checkbox" v-model="careerModel.removeArrowBackground" />
@@ -78,12 +78,12 @@
                         <label for="match-border">Match arrow background to border color </label>
                     </div>
                 </div>
-    
+
                 <div class="input-group">
                     <label>Border Color:</label>
                     <input type="text" name="text-color" class="jscolor" v-model="careerModel.borderColor" v-on:change="updateBorderColor($event)" />
                 </div>
-    
+
                 <div class="input-group">
                     <label>Border Style:</label>
                     <select v-model="careerModel.borderStyle">
@@ -108,22 +108,22 @@
             <!-- END IMPORT PREEXISTING CONFIGURATION CONTROLS  -->
 
 
-    
+
             <div class="flex-col">
-                
+
                 <!-- COLUMN 1 -->
                 <!-- PATH CONFIGURAITON FORM CONTROLS -->
                 <!-- START -->
                 <div class="main-col form-controls-wrapper">
                     <h3>Row Configuration</h3>
-    
+
                     <div class="flex-col row-controls" v-for="(row, rowIndex) in careerModel.rows">
                         <button class="column delete-row-btn" v-on:click="deleteRow(rowIndex)">Delete Row <br> {{ rowIndex+1 }}</button> <!-- Delete Row -->
-    
+
                         <div class="column large-col">
                             <div class="row column-row">
                                 <button class="add-column-btn" v-on:click="addTitleColumn(rowIndex)">Add New Job Title</button> <!-- Add Job Title -->
-    
+
                                 <!-- top border controls -->
                                 <div class="row border-controls top" v-if="rowIndex >= 1 && row.jobTitles.length > 1">
                                     <div class="border-segment-controls flex-col">
@@ -131,7 +131,7 @@
                                             <input type="checkbox" name="border" v-bind:id="'no-top-border-' + rowIndex" v-model="row.borders.addTopBorder">
                                             <label v-bind:for="'no-top-border-' + rowIndex">Add top border</label>
                                         </div>
-    
+
                                         <div class="" v-if="row.borders.addTopBorder == true">
                                             <label v-bind:for="'top-segment-control-' + rowIndex">Top Border Segments</label>
                                             <select v-bind:id="'top-segment-control-' + rowIndex" v-model="row.borders.numOfTopSegments" v-on:change="setTopBorderSegments(rowIndex)">
@@ -141,7 +141,7 @@
                                             </select>
                                         </div>
                                     </div>
-    
+
                                     <div class="flex-col border-segment-config" v-if="row.borders.addTopBorder == true">
                                         <div v-for="(segment, segmentIndex) in row.borders.topBorderSegments">
                                             <input type="checkbox" v-bind:id="'topHiddenColumn-' + rowIndex + segmentIndex" v-model="segment.segmentHidden">
@@ -149,7 +149,7 @@
                                         </div>
                                     </div>
                                 </div>
-    
+
                                 <!-- bottom border controls -->
                                 <div class="row border-controls" v-if="row.jobTitles.length > 1">
                                     <div class="border-segment-controls flex-col">
@@ -157,7 +157,7 @@
                                             <input type="checkbox" name="border" v-bind:id="'no-bottom-border-' + rowIndex" v-model="row.borders.addBottomBorder">
                                             <label v-bind:for="'no-bottom-border-' + rowIndex">Add bottom border</label>
                                         </div>
-    
+
                                         <div class="" v-if="row.borders.addBottomBorder == true">
                                             <label v-bind:for="'bottom-segment-control-' + rowIndex">Bottom Border Segments</label>
                                             <select v-bind:id="'bottom-segment-control-' + rowIndex" v-model="row.borders.numOfBottomSegments" v-on:change="setBottomBorderSegments(rowIndex)">
@@ -167,7 +167,7 @@
                                             </select>
                                         </div>
                                     </div>
-    
+
                                     <div class="flex-col border-segment-config" v-if="row.borders.addBottomBorder == true">
                                         <div v-for="(segment, segmentIndex) in row.borders.bottomBorderSegments">
                                             <input type="checkbox" v-bind:id="'bottomHiddenColumn-' + rowIndex + segmentIndex" v-model="segment.segmentHidden">
@@ -175,57 +175,57 @@
                                         </div>
                                     </div>
                                 </div>
-    
+
                                 <!-- job title column controls -->
                                 <div class="column flex-col">
                                     <div class="item" v-for="(item, itemIndex) in row.jobTitles">
-    
+
                                         <button class="delete-column-btn" v-on:click="deleteTitleColumn(rowIndex,itemIndex)"><b>Delete:</b> {{ item.jobTitle.name }}</button>
-    
+
                                         <div class="flex-col field-wrapper">
-    
+
                                             <!-- job title invisible -->
                                             <div class="" v-if="item.nullColumn == false">
                                                 <input type="checkbox" v-bind:id="'invisibleColumn-' + rowIndex + itemIndex" v-model="item.invisibleColumn">
                                                 <label v-bind:for="'invisibleColumn-' + rowIndex + itemIndex">Visibility Hidden</label>
                                             </div>
-    
+
                                             <!-- job title column removed -->
                                             <div class="" v-if="item.invisibleColumn == false">
                                                 <input type="checkbox" v-bind:id="'nullColumn-' + rowIndex + itemIndex" v-model="item.nullColumn">
                                                 <label v-bind:for="'nullColumn-' + rowIndex + itemIndex">Display None</label>
                                             </div>
-    
+
                                             <div class="full-width" v-if="item.invisibleColumn == false && item.nullColumn == false">
                                                 <!-- job title text removed -->
                                                 <div class="" v-if="rowIndex >= 1">
                                                     <input type="checkbox" v-bind:id="'hideText-' + rowIndex + itemIndex" v-model="item.hideText">
                                                     <label v-bind:for="'hideText-' + rowIndex + itemIndex">Remove Text</label>
                                                 </div>
-    
+
                                                 <!-- job title isLinked -->
                                                 <div class="" v-if="item.hideText == false">
                                                     <input type="checkbox" v-bind:id="'isLinked-' + rowIndex + itemIndex" v-model="item.isLinked">
                                                     <label v-bind:for="'isLinked-' + rowIndex + itemIndex">Link this job</label>
                                                 </div>
-    
+
                                                 <!-- last job title path -->
                                                 <div class="" v-if="rowIndex >= 1 && item.hideText == false">
                                                     <input type="checkbox" v-bind:id="'last-' + rowIndex + itemIndex" v-model="item.isLast">
                                                     <label v-bind:for="'last-' + rowIndex + itemIndex">End of path</label>
                                                 </div>
-    
+
                                                 <!-- <div v-if="nextIndex(rowIndex) > rowIndex" class="mapping-field">
                                                 <label for="">Map To</label>
                                                 <select name="" id="" multiple v-model="item.mappings">
                                                     <option selected value="">Select Job Title</option>
-    
+
                                                     <template v-for="(column, index) in careerModel.rows[nextIndex(rowIndex)].jobTitles">
                                                         <option v-bind:value="column.jobTitle.name">{{ column.jobTitle.name}}</option>
                                                     </template>
                                                 </select>
                                             </div> -->
-    
+
                                                 <div v-if="item.hideText == false">
                                                     <input type="text" placeholder="Job Title" v-on:keyup="updateJobTitle($event, rowIndex, itemIndex)"> <!-- Node Name -->
                                                 </div>
@@ -249,7 +249,7 @@
                 <!-- START -->
                 <div class="main-col row-label-wrapper">
                     <h3>Rows #</h3>
-    
+
                     <div class="row-label-container">
                         <div class="row-label" v-for="(row, rowIndex) in careerModel.rows"><span>Row {{ rowIndex+1 }}</span></div>
                     </div>
@@ -263,9 +263,9 @@
                 <!-- START -->
                 <div class="main-col career-path-wrapper">
                     <h3>Preview</h3>
-    
+
                     <div class="career-path" v-bind:style="{fontFamily: careerModel.fontFamily, backgroundColor: '#' + careerModel.backgroundColor}">
-                    
+
 
                         <!-- EXPORTED CAREER PATH HTML -->
                         <!-- START -->
@@ -370,10 +370,10 @@
             <div class="controls-wrap">
                 <br><br>
                 <button class="new-row-btn" v-on:click="addRow()">New Row</button>
-    
+
                 <br><br>
                 <button v-on:click="exportConfig()">Export Configuration</button>
-    
+
                 <br><br>
                 <button v-on:click="exportFiles()">Export code as text files</button>
             </div>
@@ -391,7 +391,7 @@
                         @content;
                     }
                 }
-                
+
                 // Feel free to remove this class if you don't need it
                 .wai {
                     position: absolute !important;
@@ -400,47 +400,47 @@
                     overflow: hidden;
                     margin: 0;
                 }
-                
+
                 // ============================
                 // Career Path
                 // ============================
-                
+
                 .career-path {
                     padding: 25px;
                     text-align: center;
                     margin-bottom: 25px;
                     font-family: {{ careerModel.fontFamily }};
                     background-color: #{{ careerModel.backgroundColor }};
-                
+
                     @include breakpoint(800px) {
                         padding: 50px 0;
                         margin: 0;
                     }
-                
+
                     > * {
                         margin-left: auto;
                         margin-right: auto;
                         max-width: 800px;
                     }
-                
+
                     * {
                         box-sizing: border-box;
                         font-family: inherit;
-                
+
                         &:last-chid {
                             margin-bottom: 0;
                         }
                     }
-                
+
                     &__heading {
                         font-size: 36px;
                         margin-bottom: 1em;
                     }
-                
+
                     &__intro {
                         margin-bottom: 1em;
                     }
-                
+
                     &__grid {
                         display: flex;
                         justify-content: space-between;
@@ -448,42 +448,42 @@
                         padding: 0;
                         padding-top: {{ careerModel.borderWidth }}px;
                     }
-                
+
                     // primary row that contains all secondary rows
                     &__row {
                         width: 100%;
                         list-style: none;
                         position: relative;
                         margin-top: -{{ careerModel.borderWidth }}px;
-                        
+
                         .js .enhance-element & {
                             opacity: 0;
                         }
-                
+
                         .js .enhance-element.active & {
                             animation: fadein 0.5s forwards;
-                            
+
                             $delay: 0;
                             @for $i from 1 through 20 {
                                 $delay: $delay + .3;
-                                
+
                                 &:nth-child(#{$i+1}){
                                   animation-delay: #{$delay}s;
                                 }
                             }
                         }
                     }
-                
+
                     .starting-row {
                         .career-path__title-container {
                             margin-top: 0;
                         }
-                
+
                         .career-path__title-row > * {
                             min-height: 0;
                         }
                     }
-                
+
                     // secondary row that contains only border segments
                     &__border-row {
                         display: flex;
@@ -493,30 +493,30 @@
                         left: 50%;
                         transform: translateX(-50%);
                         z-index: 1;
-                
+
                         &.top {
                             top: 0;
                         }
-                
+
                         &.bottom {
                             bottom: 0;
                         }
                     }
-                
+
                     // secondary row that contains only job title columns
                     &__title-row {
                         display: flex;
                         justify-content: center;
                         width: 100%;
                         overflow: hidden;
-                
+
                         // each column that contains a job title
                         > * {
                             min-height: 116px;
                             position: relative;
                         }
                     }
-                
+
                     // wrapping div for job title
                     &__title-container {
                         color: #000;
@@ -527,7 +527,7 @@
                         max-width: 100%;
                         background-color: #{{ careerModel.backgroundColor }};
                     }
-                
+
                     // job title
                     &__title {
                         display: inline-block;
@@ -537,7 +537,7 @@
                         background-color: #{{ careerModel.textBackground }};
                         color: #{{ careerModel.textColor }};
                     }
-                
+
                     // arrow icon
                     .career-arrow {
                         display: block;
@@ -557,7 +557,7 @@
                             background-color: #{{ careerModel.arrowBackground }};
                         </template>
                     }
-                
+
                     // styles for borders
                     .vertical-border {
                         display: block;
@@ -566,34 +566,34 @@
                         height: 50%;
                         left: 50%;
                         transform: translateX(-50%);
-                
+
                         &.top {
                             top: 0;
                         }
-                
+
                         &.bottom {
                             bottom: 0;
                             transform-origin: left;
                             transform: rotate(180deg) translateX(-50%);
                         }
-                
+
                         &.full-height {
                             height: calc(100% + 4px);
                         }
                     }
-                
+
                     .horizontal-border {
                         position: relative;
                     }
-                
+
                     #border-pattern {
                         fill: #{{ careerModel.borderColor }};
                     }
-                
+
                     .hide-border {
                         visibility: hidden;
                     }
-                
+
                     // Column widths
                     // so far there are 16 different widths
                     @for $i from 1 through 16 {
@@ -601,7 +601,7 @@
                             width: calc(100% / #{$i})
                         }
                     }
-                
+
                     .REMOVE_CLASS {
                         width: auto !important;
                         height: auto !important;
