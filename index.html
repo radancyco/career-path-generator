@@ -6,607 +6,841 @@ localjs: init.js
 
 <p>Examples of career paths you can build can be found <a href="https://radancy.dev/tb-ajd-template/examples/career-path/">here</a></p>
 
-        <div id="app" class="form-app">
+<div id="app" class="form-app">
 
-            <!-- CAREER PATH STYLE CONTROLS -->
-            <!-- START -->
-            <div class="flex-col controls-wrap">
-                <div class="input-group">
-                    <label>Font Family:</label>
-                    <select v-model="careerModel.fontFamily">
-                        <option value="Arial" selected="selected">Arial</option>
-                        <option value="Arial Black">Arial Black</option>
-                        <option value="Comic Sans MS">Comic Sans MS</option>
-                        <option value="Courier">Courier</option>
-                        <option value="Courier New">Courier New</option>
-                        <option value="Georgia">Georgia</option>
-                        <option value="Impact">Impact</option>
-                        <option value="Palatino">Palatino</option>
-                        <option value="Roboto">Roboto</option>
-                        <option value="Times New Roman">Times New Roman</option>
-                        <option value="Verdana">Verdana</option>
-                    </select>
+  <!-- CAREER PATH STYLE CONTROLS -->
+
+  <!-- START -->
+
+  <div class="flex-col controls-wrap">
+
+    <div class="input-group">
+
+      <label for="fontFamily">Font Family:</label>
+
+      <select id="fontFamily" v-model="careerModel.fontFamily">
+        <option value="Arial" selected="selected">Arial</option>
+        <option value="Arial Black">Arial Black</option>
+        <option value="Comic Sans MS">Comic Sans MS</option>
+        <option value="Courier">Courier</option>
+        <option value="Courier New">Courier New</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Impact">Impact</option>
+        <option value="Palatino">Palatino</option>
+        <option value="Roboto">Roboto</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Verdana">Verdana</option>
+      </select>
+
+    </div>
+
+    <div class="input-group">
+
+      <label for="back-color">Background Color:</label>
+
+      <input type="text" name="back-color" id="back-color" class="jscolor" v-model="careerModel.backgroundColor" v-on:change="updateBackgroundColor($event)" />
+
+    </div>
+
+    <div class="input-group">
+
+      <label for="text-color">Text Color:</label>
+
+      <input type="text" name="text-color" id="text-color" class="jscolor" v-model="careerModel.textColor" v-on:change="updateTextColor($event)" />
+
+    </div>
+
+    <div class="input-group">
+
+      <label for="text-background-color">Text Background Color:</label>
+
+      <input type="text" name="text-color" id="text-background-color" class="jscolor" v-model="careerModel.textBackground" v-on:change="updateTextBackground($event)" />
+
+    </div>
+
+    <div class="input-group">
+
+      <label for="arrow-color">Arrow Color:</label>
+
+      <input type="text" name="text-color" id="arrow-color" class="jscolor" v-model="careerModel.arrowColor" v-on:change="updateArrowColor($event)" />
+
+    </div>
+
+    <div class="input-group">
+
+      <div v-bind:style="careerModel.matchBorder == true ? 'display: none' : ''">
+
+        <label for="arrow-background-color">Arrow Background Color:</label>
+
+        <input type="text" name="text-color" id="arrow-background-color" class="jscolor" v-model="careerModel.arrowBackground" v-on:change="updateArrowBackground($event)" />
+
+      </div>
+
+      <br>
+
+      <div style="position: relative">
+
+        <input id="arrowBackground" type="checkbox" v-model="careerModel.removeArrowBackground" />
+
+        <label for="arrowBackground">Remove background behind arrow</label>
+
+      </div>
+
+      <br>
+
+      <div style="position: relative">
+
+        <input id="match-border" type="checkbox" v-model="careerModel.matchBorder" />
+
+        <label for="match-border">Match arrow background to border color </label>
+
+      </div>
+
+    </div>
+
+    <div class="input-group">
+
+      <label for="border-color">Border Color:</label>
+
+      <input type="text" name="text-color" id="border-color" class="jscolor" v-model="careerModel.borderColor" v-on:change="updateBorderColor($event)" />
+
+    </div>
+
+    <div class="input-group">
+
+      <label for="border-style">Border Style:</label>
+
+      <select v-model="careerModel.borderStyle" id="border-style">
+        <option value="square" selected="selected">Square</option>
+        <option value="circle" selected="selected">Circle</option>
+        <option value="solid">Solid</option>
+      </select>
+
+    </div>
+
+  </div>
+
+  <!-- END CAREER PATH STYLE CONTROLS -->
+
+  <!-- IMPORT PREEXISTING CONFIGURATION CONTROLS -->
+
+  <!-- START -->
+
+  <div class="controls-wrap">
+
+    <br><br>
+
+    <label for="importFile">Import Configuration </label>
+
+    <input type="file" id="importFile">
+
+    <br>
+
+    <button v-on:click="importConfig(document.getElementById('importFile'))">Import File</button>
+
+  </div>
+
+  <!-- END IMPORT PREEXISTING CONFIGURATION CONTROLS  -->
+
+  <div class="flex-col">
+
+    <!-- COLUMN 1 -->
+
+    <!-- PATH CONFIGURAITON FORM CONTROLS -->
+
+    <!-- START -->
+
+    <div class="main-col form-controls-wrapper">
+
+      <h3>Row Configuration</h3>
+
+      <div class="flex-col row-controls" v-for="(row, rowIndex) in careerModel.rows">
+
+        <button class="column delete-row-btn" v-on:click="deleteRow(rowIndex)">Delete Row <br> {{ rowIndex+1 }}</button> <!-- Delete Row -->
+
+        <div class="column large-col">
+
+          <div class="row column-row">
+
+            <button class="add-column-btn" v-on:click="addTitleColumn(rowIndex)">Add New Job Title</button> <!-- Add Job Title -->
+
+            <!-- top border controls -->
+
+            <div class="row border-controls top" v-if="rowIndex >= 1 && row.jobTitles.length > 1">
+
+              <div class="border-segment-controls flex-col">
+
+                <div class="">
+
+                  <input type="checkbox" name="border" v-bind:id="'no-top-border-' + rowIndex" v-model="row.borders.addTopBorder">
+
+                  <label v-bind:for="'no-top-border-' + rowIndex">Add top border</label>
+
                 </div>
 
-                <div class="input-group">
-                    <label>Background Color:</label>
-                    <input type="text" name="back-color" class="jscolor" v-model="careerModel.backgroundColor" v-on:change="updateBackgroundColor($event)" />
+                <div class="" v-if="row.borders.addTopBorder == true">
+
+                  <label v-bind:for="'top-segment-control-' + rowIndex">Top Border Segments</label>
+
+                  <select v-bind:id="'top-segment-control-' + rowIndex" v-model="row.borders.numOfTopSegments" v-on:change="setTopBorderSegments(rowIndex)">
+
+                    <template v-for="n in row.borders.totalSegments">
+
+                      <option v-bind:value="n" v-bind:selected="{'selected' : n == 1}">{{ n }}</option>
+
+                    </template>
+
+                  </select>
+
                 </div>
 
-                <div class="input-group">
-                    <label>Text Color:</label>
-                    <input type="text" name="text-color" class="jscolor" v-model="careerModel.textColor" v-on:change="updateTextColor($event)" />
+              </div>
+
+              <div class="flex-col border-segment-config" v-if="row.borders.addTopBorder == true">
+
+                <div v-for="(segment, segmentIndex) in row.borders.topBorderSegments">
+
+                  <input type="checkbox" v-bind:id="'topHiddenColumn-' + rowIndex + segmentIndex" v-model="segment.segmentHidden">
+
+                  <label v-bind:for="'topHiddenColumn-' + rowIndex + segmentIndex">Hide segment {{ segmentIndex + 1 }}</label>
+
                 </div>
 
-                <div class="input-group">
-                    <label>Text Background Color:</label>
-                    <input type="text" name="text-color" class="jscolor" v-model="careerModel.textBackground" v-on:change="updateTextBackground($event)" />
-                </div>
-
-                <div class="input-group">
-                    <label>Arrow Color:</label>
-                    <input type="text" name="text-color" class="jscolor" v-model="careerModel.arrowColor" v-on:change="updateArrowColor($event)" />
-                </div>
-
-                <div class="input-group">
-                    <div v-bind:style="careerModel.matchBorder == true ? 'display: none' : ''">
-                        <label>Arrow Background Color:</label>
-                        <input type="text" name="text-color" class="jscolor" v-model="careerModel.arrowBackground" v-on:change="updateArrowBackground($event)" />
-                    </div>
-
-                    <br>
-                    <div style="position: relative">
-                        <input id="arrowBackground" type="checkbox" v-model="careerModel.removeArrowBackground" />
-                        <label for="arrowBackground">Remove background behind arrow</label>
-                    </div>
-                    <br>
-                    <div style="position: relative">
-                        <input id="match-border" type="checkbox" v-model="careerModel.matchBorder" />
-                        <label for="match-border">Match arrow background to border color </label>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label>Border Color:</label>
-                    <input type="text" name="text-color" class="jscolor" v-model="careerModel.borderColor" v-on:change="updateBorderColor($event)" />
-                </div>
-
-                <div class="input-group">
-                    <label>Border Style:</label>
-                    <select v-model="careerModel.borderStyle">
-                        <option value="square" selected="selected">Square</option>
-                        <option value="circle" selected="selected">Circle</option>
-                        <option value="solid">Solid</option>
-                    </select>
-                </div>
-            </div>
-            <!-- END CAREER PATH STYLE CONTROLS -->
-
-
-            <!-- IMPORT PREEXISTING CONFIGURATION CONTROLS -->
-            <!-- START -->
-            <div class="controls-wrap">
-                <br><br>
-                <label for="importFile">Import Configuration </label>
-                <input type="file" id="importFile">
-                <br>
-                <button v-on:click="importConfig(document.getElementById('importFile'))">Import File</button>
-            </div>
-            <!-- END IMPORT PREEXISTING CONFIGURATION CONTROLS  -->
-
-
-
-            <div class="flex-col">
-
-                <!-- COLUMN 1 -->
-                <!-- PATH CONFIGURAITON FORM CONTROLS -->
-                <!-- START -->
-                <div class="main-col form-controls-wrapper">
-                    <h3>Row Configuration</h3>
-
-                    <div class="flex-col row-controls" v-for="(row, rowIndex) in careerModel.rows">
-                        <button class="column delete-row-btn" v-on:click="deleteRow(rowIndex)">Delete Row <br> {{ rowIndex+1 }}</button> <!-- Delete Row -->
-
-                        <div class="column large-col">
-                            <div class="row column-row">
-                                <button class="add-column-btn" v-on:click="addTitleColumn(rowIndex)">Add New Job Title</button> <!-- Add Job Title -->
-
-                                <!-- top border controls -->
-                                <div class="row border-controls top" v-if="rowIndex >= 1 && row.jobTitles.length > 1">
-                                    <div class="border-segment-controls flex-col">
-                                        <div class="">
-                                            <input type="checkbox" name="border" v-bind:id="'no-top-border-' + rowIndex" v-model="row.borders.addTopBorder">
-                                            <label v-bind:for="'no-top-border-' + rowIndex">Add top border</label>
-                                        </div>
-
-                                        <div class="" v-if="row.borders.addTopBorder == true">
-                                            <label v-bind:for="'top-segment-control-' + rowIndex">Top Border Segments</label>
-                                            <select v-bind:id="'top-segment-control-' + rowIndex" v-model="row.borders.numOfTopSegments" v-on:change="setTopBorderSegments(rowIndex)">
-                                                <template v-for="n in row.borders.totalSegments">
-                                                    <option v-bind:value="n" v-bind:selected="{'selected' : n == 1}">{{ n }}</option>
-                                                </template>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex-col border-segment-config" v-if="row.borders.addTopBorder == true">
-                                        <div v-for="(segment, segmentIndex) in row.borders.topBorderSegments">
-                                            <input type="checkbox" v-bind:id="'topHiddenColumn-' + rowIndex + segmentIndex" v-model="segment.segmentHidden">
-                                            <label v-bind:for="'topHiddenColumn-' + rowIndex + segmentIndex">Hide segment {{ segmentIndex + 1 }}</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- bottom border controls -->
-                                <div class="row border-controls" v-if="row.jobTitles.length > 1">
-                                    <div class="border-segment-controls flex-col">
-                                        <div class="">
-                                            <input type="checkbox" name="border" v-bind:id="'no-bottom-border-' + rowIndex" v-model="row.borders.addBottomBorder">
-                                            <label v-bind:for="'no-bottom-border-' + rowIndex">Add bottom border</label>
-                                        </div>
-
-                                        <div class="" v-if="row.borders.addBottomBorder == true">
-                                            <label v-bind:for="'bottom-segment-control-' + rowIndex">Bottom Border Segments</label>
-                                            <select v-bind:id="'bottom-segment-control-' + rowIndex" v-model="row.borders.numOfBottomSegments" v-on:change="setBottomBorderSegments(rowIndex)">
-                                                <template v-for="n in row.borders.totalSegments">
-                                                    <option v-bind:value="n" v-bind:selected="{'selected' : n == 1}">{{ n }}</option>
-                                                </template>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex-col border-segment-config" v-if="row.borders.addBottomBorder == true">
-                                        <div v-for="(segment, segmentIndex) in row.borders.bottomBorderSegments">
-                                            <input type="checkbox" v-bind:id="'bottomHiddenColumn-' + rowIndex + segmentIndex" v-model="segment.segmentHidden">
-                                            <label v-bind:for="'bottomHiddenColumn-' + rowIndex + segmentIndex">Hide segment {{ segmentIndex + 1 }}</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- job title column controls -->
-                                <div class="column flex-col">
-                                    <div class="item" v-for="(item, itemIndex) in row.jobTitles">
-
-                                        <button class="delete-column-btn" v-on:click="deleteTitleColumn(rowIndex,itemIndex)"><b>Delete:</b> {{ item.jobTitle.name }}</button>
-
-                                        <div class="flex-col field-wrapper">
-
-                                            <!-- job title invisible -->
-                                            <div class="" v-if="item.nullColumn == false">
-                                                <input type="checkbox" v-bind:id="'invisibleColumn-' + rowIndex + itemIndex" v-model="item.invisibleColumn">
-                                                <label v-bind:for="'invisibleColumn-' + rowIndex + itemIndex">Visibility Hidden</label>
-                                            </div>
-
-                                            <!-- job title column removed -->
-                                            <div class="" v-if="item.invisibleColumn == false">
-                                                <input type="checkbox" v-bind:id="'nullColumn-' + rowIndex + itemIndex" v-model="item.nullColumn">
-                                                <label v-bind:for="'nullColumn-' + rowIndex + itemIndex">Display None</label>
-                                            </div>
-
-                                            <div class="full-width" v-if="item.invisibleColumn == false && item.nullColumn == false">
-                                                <!-- job title text removed -->
-                                                <div class="" v-if="rowIndex >= 1">
-                                                    <input type="checkbox" v-bind:id="'hideText-' + rowIndex + itemIndex" v-model="item.hideText">
-                                                    <label v-bind:for="'hideText-' + rowIndex + itemIndex">Remove Text</label>
-                                                </div>
-
-                                                <!-- job title isLinked -->
-                                                <div class="" v-if="item.hideText == false">
-                                                    <input type="checkbox" v-bind:id="'isLinked-' + rowIndex + itemIndex" v-model="item.isLinked">
-                                                    <label v-bind:for="'isLinked-' + rowIndex + itemIndex">Link this job</label>
-                                                </div>
-
-                                                <!-- last job title path -->
-                                                <div class="" v-if="rowIndex >= 1 && item.hideText == false">
-                                                    <input type="checkbox" v-bind:id="'last-' + rowIndex + itemIndex" v-model="item.isLast">
-                                                    <label v-bind:for="'last-' + rowIndex + itemIndex">End of path</label>
-                                                </div>
-
-                                                <!-- <div v-if="nextIndex(rowIndex) > rowIndex" class="mapping-field">
-                                                <label for="">Map To</label>
-                                                <select name="" id="" multiple v-model="item.mappings">
-                                                    <option selected value="">Select Job Title</option>
-
-                                                    <template v-for="(column, index) in careerModel.rows[nextIndex(rowIndex)].jobTitles">
-                                                        <option v-bind:value="column.jobTitle.name">{{ column.jobTitle.name}}</option>
-                                                    </template>
-                                                </select>
-                                            </div> -->
-
-                                                <div v-if="item.hideText == false">
-                                                    <input type="text" placeholder="Job Title" v-on:keyup="updateJobTitle($event, rowIndex, itemIndex)"> <!-- Node Name -->
-                                                </div>
-                                                <div v-if="item.isLinked">
-                                                    <input type="text" placeholder="https://" v-model="item.jobTitle.link"> <!-- Node Link -->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- END PATH CONFIGURAITON FORM CONTROLS -->
-
-
-
-                <!-- COLUMN 2 -->
-                <!-- ROW LABEL GUIDE -->
-                <!-- START -->
-                <div class="main-col row-label-wrapper">
-                    <h3>Rows #</h3>
-
-                    <div class="row-label-container">
-                        <div class="row-label" v-for="(row, rowIndex) in careerModel.rows"><span>Row {{ rowIndex+1 }}</span></div>
-                    </div>
-                </div>
-                <!-- END ROW LABEL GUIDE-->
-
-
-
-                <!-- COLUMN 3 -->
-                <!-- CAREER PATH PREVIEW -->
-                <!-- START -->
-                <div class="main-col career-path-wrapper">
-                    <h3>Preview</h3>
-
-                    <div class="career-path" v-bind:style="{fontFamily: careerModel.fontFamily, backgroundColor: '#' + careerModel.backgroundColor}">
-
-
-                        <!-- EXPORTED CAREER PATH HTML -->
-                        <!-- START -->
-                        <div id="career-path-template">
-                            <!-- BORDER PATTERNS -->
-                            <svg height="0" width="0" style="display: block;">
-                                <!-- SQUARE PATTERN -->
-                                <pattern v-if="careerModel.borderStyle == 'square'" v-bind:fill="'#' + careerModel.borderColor" id="border-pattern" x="0" y="0" v-bind:width="(careerModel.borderWidth*2)" v-bind:height="(careerModel.borderWidth*2)"
-                                    patternUnits="userSpaceOnUse">
-                                    <rect x="0" y="0" v-bind:width="careerModel.borderWidth" v-bind:height="careerModel.borderWidth"></rect>
-                                </pattern>
-                                <!-- CIRCLE PATTERN -->
-                                <pattern v-else-if="careerModel.borderStyle == 'circle'" v-bind:fill="'#' + careerModel.borderColor" id="border-pattern" x="0" y="0" v-bind:width="(careerModel.borderWidth*2)" v-bind:height="(careerModel.borderWidth*2)"
-                                    patternUnits="userSpaceOnUse">
-                                    <circle v-bind:cx="(careerModel.borderWidth/2)" v-bind:cy="(careerModel.borderWidth/2)" v-bind:r="(careerModel.borderWidth/2*.87)" />
-                                </pattern>
-                                <!-- SOLID PATTERN -->
-                                <pattern v-else id="border-pattern" x="0" y="0" v-bind:fill="'#' + careerModel.borderColor" v-bind:width="careerModel.borderWidth" v-bind:height="careerModel.borderWidth" patternUnits="userSpaceOnUse">
-                                    <rect x="0" y="0" v-bind:width="(careerModel.borderWidth*2)" v-bind:height="(careerModel.borderWidth*2)"></rect>
-                                </pattern>
-                            </svg>
-
-                            <!-- REUSABLE SVGS -->
-                            <svg style="display: none;">
-                                <path id="icon-arrow" v-bind:fill="'#' + careerModel.arrowColor"
-                                    d="M15 12.1c.1-.2.2-.3.3-.4C19 8 22.7 4.4 26.4.7c.9-.9 2.3-.9 3.2.1.6.7.6 1.7.1 2.5-.1.2-.3.3-.4.5C25 8 20.8 12.1 16.6 16.3c-1 1-2.2 1-3.3 0L.7 3.7C.1 3-.2 2.3.1 1.4.5.6 1.1.1 2 0c.6 0 1.2.2 1.7.7C5 2 6.4 3.4 7.7 4.8l7.1 7.1c.1 0 .1.1.2.2z" />
-                                <rect id="border" x="0" y="0" fill="url(#border-pattern)" height="100%" width="100%"></rect>
-                            </svg>
-
-                            <ul class="career-path__grid" v-bind:style="{paddingTop: careerModel.borderWidth + 'px'}">
-                                <!-- career path rows -->
-                                <template v-for="(row, rowIndex) in careerModel.rows">
-                                    <li v-bind:class="rowIndex == 0 ? 'career-path__row starting-row' : 'career-path__row'" v-bind:style="{marginTop: -careerModel.borderWidth + 'px'}">
-
-                                        <!-- row for top border-->
-                                        <div v-if="rowIndex >= 1 && row.borders.addTopBorder == true" v-bind:style="'width: ' + calculateBorderWidth(row.jobTitles.length)"
-                                            v-bind:class="'career-path__border-row top width-' + row.borders.topBorderSegments.length">
-                                            <!-- border segments -->
-                                            <svg v-for="borderSegment in row.borders.topBorderSegments" v-bind:height="careerModel.borderWidth + 'px'" width="100%"
-                                                v-bind:class="borderSegment.segmentHidden || row.borders.addTopBorder == false ? 'horizontal-border hide-border' : 'horizontal-border'">
-                                                <use xlink:href="#border"></use>
-                                            </svg>
-                                        </div>
-
-                                        <!-- row of job titles -->
-                                        <div v-bind:class="'career-path__title-row width-' + row.jobTitles.length">
-                                            <!-- job titles -->
-                                            <div v-for="item in row.jobTitles" v-if="item.nullColumn == false">
-                                                <template v-if="item.invisibleColumn == false">
-                                                    <svg v-if="rowIndex > 0" v-bind:class="item.hideText == true ? 'vertical-border top full-height' : 'vertical-border top'" v-bind:width="careerModel.borderWidth + 'px'">
-                                                        <use xlink:href="#border"></use>
-                                                    </svg>
-
-                                                    <div class="career-path__title-container" v-if="item.hideText == false" v-bind:style="{backgroundColor: '#' + careerModel.backgroundColor}">
-                                                        <svg viewBox="0 0 30 17.1" v-if="rowIndex > 0" class="career-arrow"
-                                                            v-bind:style="{backgroundColor: careerModel.removeArrowBackground ? 'transparent' : careerModel.matchBorder ? careerModel.borderColor : '#' + careerModel.arrowBackground}">
-                                                            <use xlink:href="#icon-arrow"></use>
-                                                        </svg>
-                                                        <span class="sr-only" v-if="item.isLinked">View </span>
-
-                                                        <a class="career-path__title" v-if="item.isLinked" v-bind:style="{color: '#' + careerModel.textColor, background: '#' + careerModel.textBackground}"
-                                                            v-bind:href="item.jobTitle.link">{{item.jobTitle.name}}</a>
-                                                        <span class="career-path__title" v-else v-bind:style="{color: '#' + careerModel.textColor, background: '#' + careerModel.textBackground}">{{item.jobTitle.name}}</span>
-
-                                                        <!-- <span class="sr-only" v-if="listMappings(item.mappings) != ''">. {{item.jobTitle.name}} {{ listMappings(item.mappings) }}</span> -->
-
-                                                        <span class="sr-only REMOVE_CLASS">DO NOT FORGET TO ADD ACCESSIBILITY TEXT</span>
-                                                    </div>
-
-                                                    <svg v-if="endPath(item.hideText, item.isLast)" class="vertical-border bottom" v-bind:width="careerModel.borderWidth + 'px'">
-                                                        <use xlink:href="#border"></use>
-                                                    </svg>
-                                                </template>
-                                            </div>
-                                        </div>
-
-                                        <!-- row for bottom border-->
-                                        <div v-if="row.borders.addBottomBorder == true" v-bind:style="'width: ' + calculateBorderWidth(row.jobTitles.length)" v-bind:class="'career-path__border-row bottom width-' + row.borders.bottomBorderSegments.length">
-                                            <!-- border segments -->
-                                            <svg v-for="borderSegment in row.borders.bottomBorderSegments" v-bind:height="careerModel.borderWidth + 'px'" width="100%"
-                                                v-bind:class="borderSegment.segmentHidden || row.borders.addBottomBorder == false ? 'horizontal-border hide-border' : 'horizontal-border'">
-                                                <use xlink:href="#border"></use>
-                                            </svg>
-                                        </div>
-                                    </li>
-                                </template>
-                            </ul>
-                        </div>
-                        <!-- END EXPORTED CAREER PATH HTML-->
-
-
-                    </div>
-                </div>
-                <!-- END CAREER PATH PREVIEW-->
+              </div>
 
             </div>
 
+            <!-- bottom border controls -->
 
+            <div class="row border-controls" v-if="row.jobTitles.length > 1">
 
-            <!-- FORM CONTROL EXTRA BUTTONS -->
-            <!-- START -->
-            <div class="controls-wrap">
-                <br><br>
-                <button class="new-row-btn" v-on:click="addRow()">New Row</button>
+              <div class="border-segment-controls flex-col">
 
-                <br><br>
-                <button v-on:click="exportConfig()">Export Configuration</button>
+                <div class="">
 
-                <br><br>
-                <button v-on:click="exportFiles()">Export code as text files</button>
+                  <input type="checkbox" name="border" v-bind:id="'no-bottom-border-' + rowIndex" v-model="row.borders.addBottomBorder">
+
+                  <label v-bind:for="'no-bottom-border-' + rowIndex">Add bottom border</label>
+
+                </div>
+
+                <div class="" v-if="row.borders.addBottomBorder == true">
+
+                  <label v-bind:for="'bottom-segment-control-' + rowIndex">Bottom Border Segments</label>
+
+                  <select v-bind:id="'bottom-segment-control-' + rowIndex" v-model="row.borders.numOfBottomSegments" v-on:change="setBottomBorderSegments(rowIndex)">
+
+                    <template v-for="n in row.borders.totalSegments">
+
+                      <option v-bind:value="n" v-bind:selected="{'selected' : n == 1}">{{ n }}</option>
+
+                    </template>
+
+                  </select>
+
+                </div>
+
+              </div>
+
+              <div class="flex-col border-segment-config" v-if="row.borders.addBottomBorder == true">
+
+                <div v-for="(segment, segmentIndex) in row.borders.bottomBorderSegments">
+
+                  <input type="checkbox" v-bind:id="'bottomHiddenColumn-' + rowIndex + segmentIndex" v-model="segment.segmentHidden">
+
+                  <label v-bind:for="'bottomHiddenColumn-' + rowIndex + segmentIndex">Hide segment {{ segmentIndex + 1 }}</label>
+
+                </div>
+
+              </div>
+
             </div>
-            <!-- END FORM CONTROL EXTRA BUTTONS -->
 
+            <!-- job title column controls -->
 
+            <div class="column flex-col">
 
+              <div class="item" v-for="(item, itemIndex) in row.jobTitles">
 
-            <!-- EXPORTED STYLES -->
-            <!-- START -->
-            <v-style id="path-scss" style="display: none;">
-                // Feel free to remove this mixin if you don't need it
-                @mixin breakpoint($width) {
-                    @media screen and (min-width: $width) {
-                        @content;
-                    }
-                }
+                <button class="delete-column-btn" v-on:click="deleteTitleColumn(rowIndex,itemIndex)"><b>Delete:</b> {{ item.jobTitle.name }}</button>
 
-                // Feel free to remove this class if you don't need it
-								.sr-only:not(:focus):not(:active) {
-								clip-path: inset(100%);
-								clip: rect(0 0 0 0);
-								height: 1px;
-								overflow: hidden;
-								position: absolute;
-								white-space: nowrap;
-								width: 1px;
-								}
+                <div class="flex-col field-wrapper">
 
-                // ============================
-                // Career Path
-                // ============================
+                  <!-- job title invisible -->
 
-                .career-path {
-                    padding: 25px;
-                    text-align: center;
-                    margin-bottom: 25px;
-                    font-family: {{ careerModel.fontFamily }};
-                    background-color: #{{ careerModel.backgroundColor }};
+                  <div class="" v-if="item.nullColumn == false">
 
-                    @include breakpoint(800px) {
-                        padding: 50px 0;
-                        margin: 0;
-                    }
+                    <input type="checkbox" v-bind:id="'invisibleColumn-' + rowIndex + itemIndex" v-model="item.invisibleColumn">
 
-                    > * {
-                        margin-left: auto;
-                        margin-right: auto;
-                        max-width: 800px;
-                    }
+                    <label v-bind:for="'invisibleColumn-' + rowIndex + itemIndex">Visibility Hidden</label>
 
-                    * {
-                        box-sizing: border-box;
-                        font-family: inherit;
+                  </div>
 
-                        &:last-chid {
-                            margin-bottom: 0;
-                        }
-                    }
+                  <!-- job title column removed -->
 
-                    &__heading {
-                        font-size: 36px;
-                        margin-bottom: 1em;
-                    }
+                  <div class="" v-if="item.invisibleColumn == false">
 
-                    &__intro {
-                        margin-bottom: 1em;
-                    }
+                    <input type="checkbox" v-bind:id="'nullColumn-' + rowIndex + itemIndex" v-model="item.nullColumn">
 
-                    &__grid {
-                        display: flex;
-                        justify-content: space-between;
-                        flex-wrap: wrap;
-                        padding: 0;
-                        padding-top: {{ careerModel.borderWidth }}px;
-                    }
+                    <label v-bind:for="'nullColumn-' + rowIndex + itemIndex">Display None</label>
 
-                    // primary row that contains all secondary rows
-                    &__row {
-                        width: 100%;
-                        list-style: none;
-                        position: relative;
-                        margin-top: -{{ careerModel.borderWidth }}px;
+                  </div>
 
-                        .js .enhance-element & {
-                            opacity: 0;
-                        }
+                  <div class="full-width" v-if="item.invisibleColumn == false && item.nullColumn == false">
 
-                        .js .enhance-element.active & {
-                            animation: fadein 0.5s forwards;
+                    <!-- job title text removed -->
 
-                            $delay: 0;
-                            @for $i from 1 through 20 {
-                                $delay: $delay + .3;
+                    <div class="" v-if="rowIndex >= 1">
 
-                                &:nth-child(#{$i+1}){
-                                  animation-delay: #{$delay}s;
-                                }
-                            }
-                        }
-                    }
+                      <input type="checkbox" v-bind:id="'hideText-' + rowIndex + itemIndex" v-model="item.hideText">
 
-                    .starting-row {
-                        .career-path__title-container {
-                            margin-top: 0;
-                        }
+                      <label v-bind:for="'hideText-' + rowIndex + itemIndex">Remove Text</label>
 
-                        .career-path__title-row > * {
-                            min-height: 0;
-                        }
-                    }
+                    </div>
 
-                    // secondary row that contains only border segments
-                    &__border-row {
-                        display: flex;
-                        justify-content: center;
-                        margin: 0 auto;
-                        position: absolute;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        z-index: 1;
+                    <!-- job title isLinked -->
 
-                        &.top {
-                            top: 0;
-                        }
+                    <div class="" v-if="item.hideText == false">
 
-                        &.bottom {
-                            bottom: 0;
-                        }
-                    }
+                      <input type="checkbox" v-bind:id="'isLinked-' + rowIndex + itemIndex" v-model="item.isLinked">
 
-                    // secondary row that contains only job title columns
-                    &__title-row {
-                        display: flex;
-                        justify-content: center;
-                        width: 100%;
-                        overflow: hidden;
+                      <label v-bind:for="'isLinked-' + rowIndex + itemIndex">Link this job</label>
 
-                        // each column that contains a job title
-                        > * {
-                            min-height: 116px;
-                            position: relative;
-                        }
-                    }
+                    </div>
 
-                    // wrapping div for job title
-                    &__title-container {
-                        color: #000;
-                        display: inline-block;
-                        position: relative;
-                        z-index: 1;
-                        margin: 24px auto 28px;
-                        max-width: 100%;
-                        background-color: #{{ careerModel.backgroundColor }};
-                    }
+                    <!-- last job title path -->
 
-                    // job title
-                    &__title {
-                        display: inline-block;
-                        padding: 8px 12px;
-                        margin-top: 4px;
-                        margin-bottom: 4px;
-                        background-color: #{{ careerModel.textBackground }};
-                        color: #{{ careerModel.textColor }};
-                    }
+                    <div class="" v-if="rowIndex >= 1 && item.hideText == false">
 
-                    // arrow icon
-                    .career-arrow {
-                        display: block;
-                        padding: 4px;
-                        border-radius: 50%;
-                        margin: 0 auto;
-                        width: 24px;
-                        height: 24px;
-                        fill: #{{ careerModel.arrowColor }};
-                        <template v-if="careerModel.matchBorder == true">
-                            background-color: #{{ careerModel.borderColor }};
+                      <input type="checkbox" v-bind:id="'last-' + rowIndex + itemIndex" v-model="item.isLast">
+
+                      <label v-bind:for="'last-' + rowIndex + itemIndex">End of path</label>
+
+                    </div>
+
+                    <!-- <div v-if="nextIndex(rowIndex) > rowIndex" class="mapping-field">
+
+                      <label for="">Map To</label>
+
+                      <select name="" id="" multiple v-model="item.mappings">
+
+                        <option selected value="">Select Job Title</option>
+
+                        <template v-for="(column, index) in careerModel.rows[nextIndex(rowIndex)].jobTitles">
+
+                        <option v-bind:value="column.jobTitle.name">{{ column.jobTitle.name}}</option>
+
                         </template>
-                        <template v-else-if="careerModel.removeArrowBackground == true">
-                            background-color: transparent;
-                        </template>
-                        <template v-else="careerModel.removeArrowBackground == true">
-                            background-color: #{{ careerModel.arrowBackground }};
-                        </template>
-                    }
 
-                    // styles for borders
-                    .vertical-border {
-                        display: block;
-                        position: absolute;
-                        z-index: 0;
-                        height: 50%;
-                        left: 50%;
-                        transform: translateX(-50%);
+                      </select>
 
-                        &.top {
-                            top: 0;
-                        }
+                    </div> -->
 
-                        &.bottom {
-                            bottom: 0;
-                            transform-origin: left;
-                            transform: rotate(180deg) translateX(-50%);
-                        }
+                    <div v-if="item.hideText == false">
 
-                        &.full-height {
-                            height: calc(100% + 4px);
-                        }
-                    }
+                      <input type="text" placeholder="Job Title" v-on:keyup="updateJobTitle($event, rowIndex, itemIndex)"> <!-- Node Name -->
 
-                    .horizontal-border {
-                        position: relative;
-                    }
+                    </div>
 
-                    #border-pattern {
-                        fill: #{{ careerModel.borderColor }};
-                    }
+                    <div v-if="item.isLinked">
 
-                    .hide-border {
-                        visibility: hidden;
-                    }
+                      <input type="text" placeholder="https://" v-model="item.jobTitle.link"> <!-- Node Link -->
 
-                    // Column widths
-                    // so far there are 16 different widths
-                    @for $i from 1 through 16 {
-                        .width-#{$i} > * {
-                            width: calc(100% / #{$i})
-                        }
-                    }
+                    </div>
 
-                    .REMOVE_CLASS {
-                        width: auto !important;
-                        height: auto !important;
-                        color: red;
-                        font-weight: bold;
-                        overflow: visible !important;
-                        clip: auto !important;
-                        clip-path: none !important;
-                    }
-                }
-            </v-style>
-            <!-- END EXPORTED STYLES -->
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
 
         </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.2/jszip.min.js"></script>
+      </div>
+
+    </div>
+
+    <!-- END PATH CONFIGURAITON FORM CONTROLS -->
+
+    <!-- COLUMN 2 -->
+
+    <!-- ROW LABEL GUIDE -->
+
+    <!-- START -->
+
+    <div class="main-col row-label-wrapper">
+
+      <h3>Rows #</h3>
+
+      <div class="row-label-container">
+
+        <div class="row-label" v-for="(row, rowIndex) in careerModel.rows"><span>Row {{ rowIndex+1 }}</span></div>
+
+      </div>
+
+    </div>
+
+    <!-- END ROW LABEL GUIDE-->
+
+    <!-- COLUMN 3 -->
+
+    <!-- CAREER PATH PREVIEW -->
+
+    <!-- START -->
+
+    <div class="main-col career-path-wrapper">
+
+      <h3>Preview</h3>
+
+      <div class="career-path" v-bind:style="{fontFamily: careerModel.fontFamily, backgroundColor: '#' + careerModel.backgroundColor}">
+
+        <!-- EXPORTED CAREER PATH HTML -->
+
+        <!-- START -->
+
+        <div id="career-path-template">
+
+          <!-- BORDER PATTERNS -->
+
+          <svg height="0" width="0" style="display: block;">
+
+            <!-- SQUARE PATTERN -->
+
+            <pattern v-if="careerModel.borderStyle == 'square'" v-bind:fill="'#' + careerModel.borderColor" id="border-pattern" x="0" y="0" v-bind:width="(careerModel.borderWidth*2)" v-bind:height="(careerModel.borderWidth*2)" patternUnits="userSpaceOnUse">
+
+              <rect x="0" y="0" v-bind:width="careerModel.borderWidth" v-bind:height="careerModel.borderWidth"></rect>
+
+            </pattern>
+
+            <!-- CIRCLE PATTERN -->
+
+            <pattern v-else-if="careerModel.borderStyle == 'circle'" v-bind:fill="'#' + careerModel.borderColor" id="border-pattern" x="0" y="0" v-bind:width="(careerModel.borderWidth*2)" v-bind:height="(careerModel.borderWidth*2)" patternUnits="userSpaceOnUse">
+
+              <circle v-bind:cx="(careerModel.borderWidth/2)" v-bind:cy="(careerModel.borderWidth/2)" v-bind:r="(careerModel.borderWidth/2*.87)" />
+
+            </pattern>
+
+            <!-- SOLID PATTERN -->
+
+            <pattern v-else id="border-pattern" x="0" y="0" v-bind:fill="'#' + careerModel.borderColor" v-bind:width="careerModel.borderWidth" v-bind:height="careerModel.borderWidth" patternUnits="userSpaceOnUse">
+
+              <rect x="0" y="0" v-bind:width="(careerModel.borderWidth*2)" v-bind:height="(careerModel.borderWidth*2)"></rect>
+
+            </pattern>
+
+          </svg>
+
+          <!-- REUSABLE SVGS -->
+
+          <svg style="display: none;">
+
+            <path id="icon-arrow" v-bind:fill="'#' + careerModel.arrowColor" d="M15 12.1c.1-.2.2-.3.3-.4C19 8 22.7 4.4 26.4.7c.9-.9 2.3-.9 3.2.1.6.7.6 1.7.1 2.5-.1.2-.3.3-.4.5C25 8 20.8 12.1 16.6 16.3c-1 1-2.2 1-3.3 0L.7 3.7C.1 3-.2 2.3.1 1.4.5.6 1.1.1 2 0c.6 0 1.2.2 1.7.7C5 2 6.4 3.4 7.7 4.8l7.1 7.1c.1 0 .1.1.2.2z" />
+
+            <rect id="border" x="0" y="0" fill="url(#border-pattern)" height="100%" width="100%"></rect>
+
+          </svg>
+
+          <ul class="career-path__grid" v-bind:style="{paddingTop: careerModel.borderWidth + 'px'}">
+
+            <!-- career path rows -->
+
+            <template v-for="(row, rowIndex) in careerModel.rows">
+
+              <li v-bind:class="rowIndex == 0 ? 'career-path__row starting-row' : 'career-path__row'" v-bind:style="{marginTop: -careerModel.borderWidth + 'px'}">
+
+                <!-- row for top border-->
+
+                <div v-if="rowIndex >= 1 && row.borders.addTopBorder == true" v-bind:style="'width: ' + calculateBorderWidth(row.jobTitles.length)" v-bind:class="'career-path__border-row top width-' + row.borders.topBorderSegments.length">
+
+                  <!-- border segments -->
+
+                  <svg v-for="borderSegment in row.borders.topBorderSegments" v-bind:height="careerModel.borderWidth + 'px'" width="100%" v-bind:class="borderSegment.segmentHidden || row.borders.addTopBorder == false ? 'horizontal-border hide-border' : 'horizontal-border'">
+
+                    <use xlink:href="#border"></use>
+
+                  </svg>
+
+                </div>
+
+                <!-- row of job titles -->
+
+                <div v-bind:class="'career-path__title-row width-' + row.jobTitles.length">
+
+                  <!-- job titles -->
+
+                  <div v-for="item in row.jobTitles" v-if="item.nullColumn == false">
+
+                    <template v-if="item.invisibleColumn == false">
+
+                      <svg v-if="rowIndex > 0" v-bind:class="item.hideText == true ? 'vertical-border top full-height' : 'vertical-border top'" v-bind:width="careerModel.borderWidth + 'px'">
+
+                        <use xlink:href="#border"></use>
+
+                      </svg>
+
+                      <div class="career-path__title-container" v-if="item.hideText == false" v-bind:style="{backgroundColor: '#' + careerModel.backgroundColor}">
+
+                        <svg viewBox="0 0 30 17.1" v-if="rowIndex > 0" class="career-arrow" v-bind:style="{backgroundColor: careerModel.removeArrowBackground ? 'transparent' : careerModel.matchBorder ? careerModel.borderColor : '#' + careerModel.arrowBackground}">
+
+                          <use xlink:href="#icon-arrow"></use>
+
+                        </svg>
+
+                        <span class="sr-only" v-if="item.isLinked">View </span>
+
+                        <a class="career-path__title" v-if="item.isLinked" v-bind:style="{color: '#' + careerModel.textColor, background: '#' + careerModel.textBackground}" v-bind:href="item.jobTitle.link">{{item.jobTitle.name}}</a>
+
+                          <span class="career-path__title" v-else v-bind:style="{color: '#' + careerModel.textColor, background: '#' + careerModel.textBackground}">{{item.jobTitle.name}}</span>
+
+                          <!-- <span class="sr-only" v-if="listMappings(item.mappings) != ''">. {{item.jobTitle.name}} {{ listMappings(item.mappings) }}</span> -->
+
+                          <span class="sr-only REMOVE_CLASS">DO NOT FORGET TO ADD ACCESSIBILITY TEXT</span>
+
+                        </div>
+
+                        <svg v-if="endPath(item.hideText, item.isLast)" class="vertical-border bottom" v-bind:width="careerModel.borderWidth + 'px'">
+
+                          <use xlink:href="#border"></use>
+
+                        </svg>
+
+                      </template>
+
+                    </div>
+
+                  </div>
+
+                  <!-- row for bottom border-->
+
+                  <div v-if="row.borders.addBottomBorder == true" v-bind:style="'width: ' + calculateBorderWidth(row.jobTitles.length)" v-bind:class="'career-path__border-row bottom width-' + row.borders.bottomBorderSegments.length">
+
+                    <!-- border segments -->
+
+                    <svg v-for="borderSegment in row.borders.bottomBorderSegments" v-bind:height="careerModel.borderWidth + 'px'" width="100%" v-bind:class="borderSegment.segmentHidden || row.borders.addBottomBorder == false ? 'horizontal-border hide-border' : 'horizontal-border'">
+
+                      <use xlink:href="#border"></use>
+
+                    </svg>
+
+                  </div>
+
+                </li>
+
+              </template>
+
+            </ul>
+
+          </div>
+
+          <!-- END EXPORTED CAREER PATH HTML-->
+
+        </div>
+
+      </div>
+
+      <!-- END CAREER PATH PREVIEW-->
+
+    </div>
+
+    <!-- FORM CONTROL EXTRA BUTTONS -->
+
+    <!-- START -->
+
+    <div class="controls-wrap">
+
+      <br><br>
+
+      <button class="new-row-btn" v-on:click="addRow()">New Row</button>
+
+      <br><br>
+
+      <button v-on:click="exportConfig()">Export Configuration</button>
+
+      <br><br>
+
+      <button v-on:click="exportFiles()">Export code as text files</button>
+
+    </div>
+
+    <!-- END FORM CONTROL EXTRA BUTTONS -->
+
+    <!-- EXPORTED STYLES -->
+
+    <!-- START -->
+
+    <v-style id="path-scss" style="display: none;">
+
+    // Feel free to remove this mixin if you don't need it
+
+    @mixin breakpoint($width) {
+
+      @media screen and (min-width: $width) {
+
+        @content;
+
+      }
+
+    }
+
+    // Feel free to remove this class if you don't need it
+
+    .sr-only:not(:focus):not(:active) {
+    clip-path: inset(100%);
+    clip: rect(0 0 0 0);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+    }
+
+    // ============================
+    // Career Path
+    // ============================
+
+    .career-path {
+    background-color: #{{ careerModel.backgroundColor }};
+    font-family: {{ careerModel.fontFamily }};
+    margin-bottom: 25px;
+    padding: 25px;
+    text-align: center;
+
+      @include breakpoint(800px) {
+
+        margin: 0;
+        padding: 50px 0;
+
+      }
+
+      > * {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 800px;
+      }
+
+      * {
+      box-sizing: border-box;
+      font-family: inherit;
+
+        &:last-chid {
+        margin-bottom: 0;
+        }
+
+      }
+
+      &__heading {
+      font-size: 36px;
+      margin-bottom: 1em;
+      }
+
+      &__intro {
+      margin-bottom: 1em;
+      }
+
+      &__grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      PADDING: 0;
+      padding-top: {{ careerModel.borderWidth }}px;
+      }
+
+      // primary row that contains all secondary rows
+      &__row {
+      list-style: none;
+      margin-top: -{{ careerModel.borderWidth }}px;
+      position: relative;
+      width: 100%;
+
+        .js .enhance-element & {
+        opacity: 0;
+        }
+
+        .js .enhance-element.active & {
+        animation: fadein 0.5s forwards;
+
+          $delay: 0;
+
+          @for $i from 1 through 20 {
+
+            $delay: $delay + .3;
+
+            &:nth-child(#{$i+1}){
+            animation-delay: #{$delay}s;
+            }
+
+          }
+
+        }
+
+      }
+
+      .starting-row {
+
+        .career-path__title-container {
+        margin-top: 0;
+        }
+
+        .career-path__title-row > * {
+        min-height: 0;
+        }
+
+      }
+
+      // secondary row that contains only border segments
+
+      &__border-row {
+      display: flex;
+      justify-content: center;
+      left: 50%;
+      margin: 0 auto;
+      position: absolute;
+      transform: translateX(-50%);
+      z-index: 1;
+
+        &.top {
+        top: 0;
+        }
+
+        &.bottom {
+        bottom: 0;
+        }
+
+      }
+
+      // secondary row that contains only job title columns
+
+      &__title-row {
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+      width: 100%;
+
+        // each column that contains a job title
+
+        > * {
+        min-height: 116px;
+        position: relative;
+        }
+
+      }
+
+      // wrapping div for job title
+
+      &__title-container {
+      background-color: #{{ careerModel.backgroundColor }};
+      color: #000;
+      display: inline-block;
+      margin: 24px auto 28px;
+      max-width: 100%;
+      position: relative;
+      z-index: 1;
+      }
+
+      // job title
+
+      &__title {
+      background-color: #{{ careerModel.textBackground }};
+      color: #{{ careerModel.textColor }};
+      display: inline-block;
+      margin-bottom: 4px;
+      margin-top: 4px;
+      padding: 8px 12px;
+      }
+
+      // arrow icon
+      
+      .career-arrow {
+      border-radius: 50%;
+      display: block;
+      fill: #{{ careerModel.arrowColor }};
+      height: 24px;
+      margin: 0 auto;
+      padding: 4px;
+      width: 24px;
+      <template v-if="careerModel.matchBorder == true">
+      background-color: #{{ careerModel.borderColor }};
+      </template>
+      <template v-else-if="careerModel.removeArrowBackground == true">
+      background-color: transparent;
+      </template>
+      <template v-else="careerModel.removeArrowBackground == true">
+      background-color: #{{ careerModel.arrowBackground }};
+      </template>
+      }
+
+      // styles for borders
+
+      .vertical-border {
+      display: block;
+      height: 50%;
+      left: 50%;
+      position: absolute;
+      transform: translateX(-50%);
+      z-index: 0;
+
+        &.top {
+        top: 0;
+        }
+
+        &.bottom {
+        bottom: 0;
+        transform-origin: left;
+        transform: rotate(180deg) translateX(-50%);
+        }
+
+        &.full-height {
+        height: calc(100% + 4px);
+        }
+
+      }
+
+      .horizontal-border {
+      position: relative;
+      }
+
+      #border-pattern {
+      fill: #{{ careerModel.borderColor }};
+      }
+
+      .hide-border {
+      visibility: hidden;
+      }
+
+      // Column widths
+      // so far there are 16 different widths
+
+      @for $i from 1 through 16 {
+
+        .width-#{$i} > * {
+        width: calc(100% / #{$i})
+        }
+
+      }
+
+      .REMOVE_CLASS {
+      clip-path: none !important;
+      clip: auto !important;
+      color: red;
+      font-weight: bold;
+      height: auto !important;
+      overflow: visible !important;
+      width: auto !important;
+      }
+
+    }
+
+    </v-style>
+
+    <!-- END EXPORTED STYLES -->
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.2/jszip.min.js"></script>
