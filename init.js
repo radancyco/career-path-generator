@@ -244,7 +244,7 @@ var view = new Vue({
             let htmlBlob = new Blob([String(html.outerHTML).replace(/\"/g, "'").replace(/<!---->/g, "")], {
                 type: "text;charset=utf-8"
             });
-            
+
             //create text file for SCSS
             let scssBlob = new Blob([document.getElementById("path-scss").textContent], {
                 type: "text;charset=utf-8"
