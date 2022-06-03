@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Career Path Template</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex, nofollow">
-  <link href="init.css" rel="stylesheet">
-</head>
-
-<body>
+---
+localcss: init.css
+localjs: init.js
+title: "Career Path Generator"
+---
 
 <p>Examples of career paths you can build can be found <a href="/tb-ajd-template/examples/career-path/">here</a></p>
 
@@ -82,9 +76,7 @@
 
       </div>
 
-      <br>
-
-      <div style="position: relative">
+      <div>
 
         <input id="arrowBackground" type="checkbox" v-model="careerModel.removeArrowBackground" />
 
@@ -92,9 +84,7 @@
 
       </div>
 
-      <br>
-
-      <div style="position: relative">
+      <div>
 
         <input id="match-border" type="checkbox" v-model="careerModel.matchBorder" />
 
@@ -134,15 +124,11 @@
 
   <div class="controls-wrap">
 
-    <br><br>
-
     <label for="importFile">Import Configuration </label>
 
     <input type="file" id="importFile">
 
-    <br>
-
-    <button v-on:click="importConfig(document.getElementById('importFile'))">Import File</button>
+    <button class="btn" v-on:click="importConfig(document.getElementById('importFile'))">Import File</button>
 
   </div>
 
@@ -162,13 +148,13 @@
 
       <div class="flex-col row-controls" v-for="(row, rowIndex) in careerModel.rows">
 
-        <button class="column delete-row-btn" v-on:click="deleteRow(rowIndex)">Delete Row <br> {{ rowIndex+1 }}</button> <!-- Delete Row -->
+        <button class="btn column delete-row-btn" v-on:click="deleteRow(rowIndex)">Delete Row <br> {% raw %}{{ rowIndex+1 }}{% endraw %}</button> <!-- Delete Row -->
 
         <div class="column large-col">
 
           <div class="row column-row">
 
-            <button class="add-column-btn" v-on:click="addTitleColumn(rowIndex)">Add New Job Title</button> <!-- Add Job Title -->
+            <button class="btn add-column-btn" v-on:click="addTitleColumn(rowIndex)">Add New Job Title</button> <!-- Add Job Title -->
 
             <!-- top border controls -->
 
@@ -192,7 +178,7 @@
 
                     <template v-for="n in row.borders.totalSegments">
 
-                      <option v-bind:value="n" v-bind:selected="{'selected' : n == 1}">{{ n }}</option>
+                      <option v-bind:value="n" v-bind:selected="{'selected' : n == 1}">{% raw %}{{ n }}{% endraw %}</option>
 
                     </template>
 
@@ -208,7 +194,7 @@
 
                   <input type="checkbox" v-bind:id="'topHiddenColumn-' + rowIndex + segmentIndex" v-model="segment.segmentHidden">
 
-                  <label v-bind:for="'topHiddenColumn-' + rowIndex + segmentIndex">Hide segment {{ segmentIndex + 1 }}</label>
+                  <label v-bind:for="'topHiddenColumn-' + rowIndex + segmentIndex">Hide segment {% raw %}{{ segmentIndex + 1 }}{% endraw %}</label>
 
                 </div>
 
@@ -238,7 +224,7 @@
 
                     <template v-for="n in row.borders.totalSegments">
 
-                      <option v-bind:value="n" v-bind:selected="{'selected' : n == 1}">{{ n }}</option>
+                      <option v-bind:value="n" v-bind:selected="{'selected' : n == 1}">{% raw %}{{ n }}{% endraw %}</option>
 
                     </template>
 
@@ -254,7 +240,7 @@
 
                   <input type="checkbox" v-bind:id="'bottomHiddenColumn-' + rowIndex + segmentIndex" v-model="segment.segmentHidden">
 
-                  <label v-bind:for="'bottomHiddenColumn-' + rowIndex + segmentIndex">Hide segment {{ segmentIndex + 1 }}</label>
+                  <label v-bind:for="'bottomHiddenColumn-' + rowIndex + segmentIndex">Hide segment {% raw %}{{ segmentIndex + 1 }}{% endraw %}</label>
 
                 </div>
 
@@ -268,7 +254,7 @@
 
               <div class="item" v-for="(item, itemIndex) in row.jobTitles">
 
-                <button class="delete-column-btn" v-on:click="deleteTitleColumn(rowIndex,itemIndex)"><b>Delete:</b> {{ item.jobTitle.name }}</button>
+                <button class="btn delete-column-btn" v-on:click="deleteTitleColumn(rowIndex,itemIndex)"><b>Delete:</b> {% raw %}{{ item.jobTitle.name }}{% endraw %}</button>
 
                 <div class="flex-col field-wrapper">
 
@@ -334,7 +320,7 @@
 
                         <template v-for="(column, index) in careerModel.rows[nextIndex(rowIndex)].jobTitles">
 
-                        <option v-bind:value="column.jobTitle.name">{{ column.jobTitle.name}}</option>
+                        <option v-bind:value="column.jobTitle.name">{% raw %}{{ column.jobTitle.name}}{% endraw %}</option>
 
                         </template>
 
@@ -384,7 +370,7 @@
 
       <div class="row-label-container">
 
-        <div class="row-label" v-for="(row, rowIndex) in careerModel.rows"><span>Row {{ rowIndex+1 }}</span></div>
+        <div class="row-label" v-for="(row, rowIndex) in careerModel.rows"><span>Row {% raw %}{{ rowIndex+1 }}{% endraw %}</span></div>
 
       </div>
 
@@ -502,11 +488,11 @@
 
                         <span class="sr-only" v-if="item.isLinked">View </span>
 
-                        <a class="career-path__title" v-if="item.isLinked" v-bind:style="{color: '#' + careerModel.textColor, background: '#' + careerModel.textBackground}" v-bind:href="item.jobTitle.link">{{item.jobTitle.name}}</a>
+                        <a class="career-path__title" v-if="item.isLinked" v-bind:style="{color: '#' + careerModel.textColor, background: '#' + careerModel.textBackground}" v-bind:href="item.jobTitle.link">{% raw %}{{item.jobTitle.name}}{% endraw %}</a>
 
-                          <span class="career-path__title" v-else v-bind:style="{color: '#' + careerModel.textColor, background: '#' + careerModel.textBackground}">{{item.jobTitle.name}}</span>
+                          <span class="career-path__title" v-else v-bind:style="{color: '#' + careerModel.textColor, background: '#' + careerModel.textBackground}">{% raw %}{{item.jobTitle.name}}{% endraw %}</span>
 
-                          <!-- <span class="sr-only" v-if="listMappings(item.mappings) != ''">. {{item.jobTitle.name}} {{ listMappings(item.mappings) }}</span> -->
+                          <!-- <span class="sr-only" v-if="listMappings(item.mappings) != ''">. {% raw %}{{item.jobTitle.name}} {{ listMappings(item.mappings) }}{% endraw %}</span> -->
 
                           <span class="sr-only REMOVE_CLASS">DO NOT FORGET TO ADD ACCESSIBILITY TEXT</span>
 
@@ -560,19 +546,13 @@
 
     <!-- START -->
 
-    <div class="controls-wrap">
+    <div class="controls-wrap bottom-controls">
 
-      <br><br>
+      <button class="btn" v-on:click="addRow()">New Row</button>
 
-      <button class="new-row-btn" v-on:click="addRow()">New Row</button>
+      <button class="btn" v-on:click="exportConfig()">Export Configuration</button>
 
-      <br><br>
-
-      <button v-on:click="exportConfig()">Export Configuration</button>
-
-      <br><br>
-
-      <button v-on:click="exportFiles()">Export code as text files</button>
+      <button class="btn" v-on:click="exportFiles()">Export code as text files</button>
 
     </div>
 
@@ -854,4 +834,3 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.2/jszip.min.js"></script>
-<script src="init.js"></script>

@@ -225,7 +225,8 @@ width: 100%;
 }
 
 .career-path-wrapper {
-position: relative;
+position: sticky;
+top: 0;
 
   h2, p {
   display: none;
@@ -233,80 +234,32 @@ position: relative;
 
 }
 
-[type="checkbox"] {
-cursor: pointer;
-vertical-align: middle;
-}
-
 .form-app {
 display: flex;
 flex-wrap: wrap;
-padding: 40px 20px;
 
   > * {
   justify-content: space-around;
   }
 
-  &__intro {
-  width: 100%;
-  margin-bottom: 40px;
-  font-size: 20px;
-  padding-bottom: 20px;
-  border-bottom: 2px solid #000;
-  }
-
-    h1 {
-    display: block;
-    font-size: 50px;
-    font-weight: bold;
-    margin-bottom: 40px;
-    text-align: center;
-    width: 100%;
-    }
-
-    h3 {
-    font-size: 30px;
-    font-weight: bold;
-    margin-top: 20px;
-    position: relative;
-    text-align: center;
-    z-index: 99;
-    }
 
     label {
     color: #000;
-    }
+    font-weight: bold;
+    margin-right: 1em;
 
-    [type="checkbox"] {
-    line-height: 1;
-
-      + label {
-      cursor: pointer;
-      display: inline-block;
-      vertical-align: middle;
+      &[for="importFile"] {
+      display: block;
       }
 
-  }
+    }
 
-  [type="text"] {
+  [type="text"], select {
   border-radius: 5px;
-  border: 1px solid #ccc;
-  padding: 3px 10px;
   width: 100%;
-  }
-
-  select {
-  background: transparent;
-  border-radius: 5px;
+  padding: 1em;
+  margin-bottom: 0.5em;
   border: 1px solid #ccc;
-  padding: 3px 10px;
-  }
-
-  button {
-  background: #ddd;
-  border-radius: 5px;
-  border: 1px solid #fff;
-  padding: 5px 10px;
   }
 
 }
@@ -315,40 +268,33 @@ padding: 40px 20px;
 justify-content: flex-start;
 width: 100%;
 
-  button  {
-  width: auto;
-  }
-
-  >* {
+  > div {
   margin-bottom: 10px;
   margin-right: 1%;
   position: relative;
-  width: 19%;
+  width: 24%;
+
+    div {
+    margin-top: .5em;
+    }
+
   }
 
-  input, select {
-  cursor: pointer;
+  input[type="text"], select {
   display: block;
-  width: 100%;
   }
 
   [type="file"] {
   display: inline;
-  // width: auto;
   }
 
-  [type="checkbox"] {
-  left: 0;
-  position: absolute;
-  top: 1px;
-  width: auto;
+}
 
-    + label {
-    cursor: pointer;
-    margin-bottom: 5px;
-    padding-left: 20px;
-    }
+.bottom-controls {
+margin-top: 1em;
 
+  .btn {
+  width: 33%;
   }
 
 }
@@ -390,13 +336,9 @@ min-height: 118px;
 margin-top: 10px;
 
   [type="checkbox"] {
-  left: 0;
-  position: absolute;
-  top: 1px;
 
     + label {
     margin-bottom: 5px;
-    padding-left: 20px;
     }
 
   }
@@ -435,6 +377,7 @@ justify-content: space-between;
 }
 
 .flex-col {
+align-items: baseline;
 display: flex;
 flex-wrap: wrap;
 width: 100%;
@@ -444,25 +387,6 @@ width: 100%;
 display: flex;
 justify-content: space-between;
 
-  div {
-  display: flex;
-  flex-wrap: wrap;
-  flex: 0 0 48%;
-  justify-content: space-between;
-  position: relative;
-  }
-
-  [type="checkbox"] {
-  left: 0;
-  position: absolute;
-  top: 1px;
-  }
-
-  [type="checkbox"] + label {
-  margin-bottom: 5px;
-  padding-left: 20px;
-  }
-
   .full-width {
   flex: 0 0 100%;
   }
@@ -471,10 +395,7 @@ justify-content: space-between;
 
 .item {
 flex: 1 0 10%;
-margin: 0 auto;
 margin-top: 10px;
-max-width: 400px;
-width: auto;
 
   > * {
   width: 100%;
@@ -483,6 +404,10 @@ width: auto;
 
   &:not(:last-child) {
   margin-right: 2%;
+  }
+
+  label {
+  width: 200px;
   }
 
 }
@@ -494,6 +419,7 @@ max-width: calc(100% - 100px);
 }
 
 .row-controls {
+align-items: inherit;
 border-top: 3px solid black;
 margin-top: 10px;
 padding-top: 10px;
