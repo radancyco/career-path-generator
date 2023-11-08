@@ -749,13 +749,13 @@ title: "Career Path Generator"
       padding: 4px;
       width: 24px;
       <template v-if="careerModel.matchBorder == true">
-      background-color: #{{ careerModel.borderColor }};
+      background-color: {% raw %}#{{ careerModel.borderColor }};{% endraw %}
       </template>
       <template v-else-if="careerModel.removeArrowBackground == true">
       background-color: transparent;
       </template>
       <template v-else="careerModel.removeArrowBackground == true">
-      background-color: #{{ careerModel.arrowBackground }};
+      background-color: {% raw %}#{{ careerModel.arrowBackground }}{% endraw %};
       </template>
       }
 
@@ -790,7 +790,7 @@ title: "Career Path Generator"
       }
 
       #border-pattern {
-      fill: #{{ careerModel.borderColor }};
+      fill: {% raw %}#{{ careerModel.borderColor }};{% endraw %}
       }
 
       .hide-border {
