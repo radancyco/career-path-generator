@@ -589,13 +589,13 @@ title: "Career Path Generator"
     // ============================
 
     .career-path {
-    background-color: #{{ careerModel.backgroundColor }};
-    font-family: {{ careerModel.fontFamily }};
+    background-color: {% raw %}#{{ careerModel.backgroundColor }};{% endraw %}
+    font-family: {% raw %}{{ careerModel.fontFamily }};{% endraw %}
     margin-bottom: 25px;
     padding: 25px;
     text-align: center;
 
-      @include breakpoint(800px) {
+      @include breakpoint(50em) {
 
         margin: 0;
         padding: 50px 0;
@@ -632,13 +632,13 @@ title: "Career Path Generator"
       flex-wrap: wrap;
       justify-content: space-between;
       padding: 0;
-      padding-top: {{ careerModel.borderWidth }}px;
+      padding-top: {% raw %}{{ careerModel.borderWidth }}px;{% endraw %}
       }
 
       // primary row that contains all secondary rows
       &__row {
       list-style: none;
-      margin-top: -{{ careerModel.borderWidth }}px;
+      margin-top: {% raw %}-{{ careerModel.borderWidth }}px;{% endraw %}
       position: relative;
       width: 100%;
 
@@ -718,7 +718,7 @@ title: "Career Path Generator"
       // wrapping div for job title
 
       &__title-container {
-      background-color: #{{ careerModel.backgroundColor }};
+      background-color: {% raw %}#{{ careerModel.backgroundColor }};{% endraw %}
       color: #000;
       display: inline-block;
       margin: 24px auto 28px;
@@ -730,8 +730,8 @@ title: "Career Path Generator"
       // job title
 
       &__title {
-      background-color: #{{ careerModel.textBackground }};
-      color: #{{ careerModel.textColor }};
+      background-color: {% raw %}#{{ careerModel.textBackground }};{% endraw %}
+      color: {% raw %}#{{ careerModel.textColor }};{% endraw %}
       display: inline-block;
       margin-bottom: 4px;
       margin-top: 4px;
@@ -743,7 +743,7 @@ title: "Career Path Generator"
       .career-arrow {
       border-radius: 50%;
       display: block;
-      fill: #{{ careerModel.arrowColor }};
+      fill: {% raw %}#{{ careerModel.arrowColor }};{% endraw %}
       height: 24px;
       margin: 0 auto;
       padding: 4px;
@@ -755,7 +755,7 @@ title: "Career Path Generator"
       background-color: transparent;
       </template>
       <template v-else="careerModel.removeArrowBackground == true">
-      background-color: {% raw %}#{{ careerModel.arrowBackground }}{% endraw %};
+      background-color: {% raw %}#{{ careerModel.arrowBackground }};{% endraw %}
       </template>
       }
 
