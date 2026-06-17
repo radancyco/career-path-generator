@@ -483,15 +483,15 @@ title: "Career Path Generator"
 
                         </svg>
 
-                        <span class="sr-only" v-if="item.isLinked">View </span>
+                        <span class="visually-hidden" v-if="item.isLinked">View </span>
 
                         <a class="career-path__title" v-if="item.isLinked" v-bind:style="{color: '#' + careerModel.textColor, background: '#' + careerModel.textBackground}" v-bind:href="item.jobTitle.link">{% raw %}{{item.jobTitle.name}}{% endraw %}</a>
 
                           <span class="career-path__title" v-else v-bind:style="{color: '#' + careerModel.textColor, background: '#' + careerModel.textBackground}">{% raw %}{{item.jobTitle.name}}{% endraw %}</span>
 
-                          <!-- <span class="sr-only" v-if="listMappings(item.mappings) != ''">. {% raw %}{{item.jobTitle.name}} {{ listMappings(item.mappings) }}{% endraw %}</span> -->
+                          <!-- <span class="visually-hidden" v-if="listMappings(item.mappings) != ''">. {% raw %}{{item.jobTitle.name}} {{ listMappings(item.mappings) }}{% endraw %}</span> -->
 
-                          <!-- span class="sr-only REMOVE_CLASS">DO NOT FORGET TO ADD ACCESSIBILITY TEXT</span -->
+                          <!-- span class="visually-hidden REMOVE_CLASS">DO NOT FORGET TO ADD ACCESSIBILITY TEXT</span -->
 
                         </div>
 
@@ -575,7 +575,7 @@ title: "Career Path Generator"
 
     // Feel free to remove this class if you don't need it
 
-    .sr-only:not(:focus):not(:active) {
+    .visually-hidden:not(:focus):not(:active) {
     clip-path: inset(100%);
     clip: rect(0 0 0 0);
     height: 1px;
