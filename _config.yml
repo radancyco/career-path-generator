@@ -25,4 +25,5 @@ port: 4003
 repo: https://github.com/radancyco/career-path-generator
 sass:
   style: :compressed
+segment: cpg
 theme-color: "#6E00EE"
